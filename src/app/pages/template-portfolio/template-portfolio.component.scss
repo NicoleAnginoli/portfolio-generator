@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Saira:wght@100&display=swap');
+
+$blue: #f6fff8;
+$acqua-blue: #c77dff;
+$cream: #469d89;
+$pink: #ED4264;
+$yellow: #FFEDBC;
+
+
+.container {
+    background: $blue;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    overflow: scroll;
+}
+
+.content {
+    padding-top: 10px;
+    padding-left: 30px;
+    margin-left: 25%;
+}
+
+.name {
+    color: black;
+    font-family: 'Saira';
+    font-size: 3rem;
+    text-align: left;
+    font-weight: bold;
+}
+
+.side-bar {
+    background-color: $cream;
+    // background-color: $acqua-blue;
+    width: 25%;
+    padding-top: 50px;
+    position: fixed;
+    height: 100%;
+}
+
+.description {
+    font-family: 'Saira';
+    font-size: 1rem;
+    color: black;
+    margin-bottom: 40px;
+}
+
+.img {
+    width: 50px;
+    height: 50px;
+}
+
+.card {
+    background-color:rgba(164, 195, 178, 0.5);
+    // background: linear-gradient($acqua-blue, $cream);
+    // background: linear-gradient(rgba(237, 66, 100, 0.5), rgba(255, 237, 188, 0.5));
+    box-shadow: 0 2rem 2rem rgba(247 255 247 / 10%);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 90%;
+
+    &__text {
+        font-family: 'Saira';
+        font-size: 1.1rem;
+        color: black;
+        // color: $cream;
+        font-weight: bolder;
+        margin: 15px 0px 0px 20px;
+    }
+}
+
+.know {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card-small {
+    background-color:rgba(164, 195, 178, 0.5);
+    box-shadow: 0 2rem 2rem rgba(247 255 247 / 10%);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 30%;
+    margin-left: 20px;
+}
+
+.list {
+    list-style: none;
+    max-width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 70%;
+
+    li {
+        counter-increment: list;  
+    }
+
+    .item {
+        display: block;
+        clear: both;
+        position: relative;
+        cursor: pointer;
+        background: none;
+        border: none;
+	    padding: 0;
+        width: 100%;
+        text-align: left;
+
+        &__text {
+            font-size: 1.1rem;
+            line-height: 40px;
+            font-family: 'Saira';
+            font-weight: bold;
+            color: black;
+            padding: 0;
+            display: inline;
+            margin: 0px 0px 0px 20px;
+        }
+        
+        &::before {
+            font: bold 2.25rem;
+            content: counter(list);
+            width: 40px;
+            height: 40px;
+            float: left;
+            color: black;
+            // color: $blue;
+            // background: linear-gradient($blue, $cream);
+            background: linear-gradient(rgba(164, 195, 178, 1), rgba(3, 102, 102, 1));
+            border-radius: 40%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            // border: $blue 1px solid;
+            border: #036666 1px solid;
+        }
+
+        &:hover {
+            transform: translateY(-0.3rem);
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.10); 
+        }
+
+        &:focus {
+            transform: translateY(-0.3rem);
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.10); 
+        }
+    }
+}
+
