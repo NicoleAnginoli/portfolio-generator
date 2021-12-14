@@ -6,14 +6,12 @@ import { AppComponent } from './app.component';
 import { FillFormComponent } from './pages/fill-form/fill-form.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TemplatePortfolioComponent } from './pages/template-portfolio/template-portfolio.component';
-import { AccordionComponent } from './shared/components/accordion/accordion.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FillFormComponent,
-    TemplatePortfolioComponent,
-    AccordionComponent
+    TemplatePortfolioComponent
   ],
   imports: [
     BrowserModule,
