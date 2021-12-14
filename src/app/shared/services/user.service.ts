@@ -6,7 +6,6 @@ import { Person } from '../interfaces/Models';
 })
 export class UserService {
 
-  users: Person[] = [];
   private storage: Storage;
 
   constructor() {
@@ -14,12 +13,10 @@ export class UserService {
   }
 
   addUser(p: Person) {
-    // this.users.push(p);
     this.set(p.username, p);
   }
 
   getUser(user: string) {
-    // return this.users.find(i => i.username === user)
     return this.get(user);
   }
 
