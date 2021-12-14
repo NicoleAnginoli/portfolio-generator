@@ -1,34 +1,32 @@
 export interface Person {
-    username: String
-    name: String;
-    description: String;
+    username: string
+    name: string;
+    description: string;
     contacts: Contacts;
-    interests: Array<String>;
-    // academicInfo: Array<AcademicInfo>;
-    // professionalBackground: Array<ProfessionalBackGround>;
-    academicInfo: AcademicInfo;
-    professionalBackground: ProfessionalBackGround;
-    skills: Array<String>;
+    interests: Array<string>;
+    academicInfo: Array<AcademicInfo>;
+    professionalBackground: Array<ProfessionalBackGround>;
+    skills: Array<string>;
 }
 
 export interface Contacts {
-    linkedin: String;
-    email: String;
-    phone: String;
+    linkedin: string;
+    email: string;
+    phone: string;
 }
 
 export interface AcademicInfo {
-    institution: String;
+    institution: string;
     startDate: Date;
     endDate: Date;
-    course: String;
+    course: string;
 }
 
 export interface ProfessionalBackGround {
-    company: String;
-    role: String;
+    company: string;
+    role: string;
     startDate: Date;
     endDate?: Date;
-    roleDescription: String;
+    roleDescription: string;
     isCurrentlyJob: boolean | false;
 }
