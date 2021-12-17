@@ -53,6 +53,9 @@ export class FillFormComponent {
   onSubmit() {
     this.person = this.form.value;
     this.userService.addUser(this.person);
+    console.log(this.person);
+    console.log(this.person.professionalBackground[0].startDate)
+    console.log(typeof this.person.professionalBackground[0].startDate)
     this.router.navigate(['/template', this.person.username]);
   }
 
