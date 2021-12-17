@@ -1,0 +1,47 @@
+<div>
+    <nav>
+        <ul>
+            <li>
+                <a href="">Contatos</a>
+            </li>
+            <li>
+                <a href="">Interesses</a>
+            </li>
+            <li>
+                <a href="">Formação Acadêmica</a>
+            </li>
+            <li>
+                <a href="">Experiência Profissional</a>
+            </li>
+            <li>
+                <a href="">Conhecimentos</a>
+            </li>
+        </ul>
+    </nav>
+    <div>
+        <h1>
+            {{person.name}}
+        </h1>
+        <h2>
+            {{person.description}}
+        </h2>
+    </div>
+    <section>
+        <div class="teste">
+        </div>
+    </section>
+    <section>
+        <div class="work" *ngFor="let i of person.professionalBackground">
+            <h3>
+                {{i.role}} @{{i.company}}
+            </h3>
+            <p>
+                {{i.startDate | date: 'dd/MM/yyyy'}} - 
+                <span *ngIf="!i.isCurrentlyJob">{{i.endDate | date: 'dd/MM/yyyy'}}</span>
+            </p>
+            <p>
+                {{i.roleDescription}}
+            </p>
+        </div>
+    </section>
+</div>
