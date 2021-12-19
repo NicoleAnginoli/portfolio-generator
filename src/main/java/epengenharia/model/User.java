@@ -1,14 +1,17 @@
 package epengenharia.model;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 @Data
@@ -45,9 +48,6 @@ public class User {
 	@CollectionTable(name = "user_professional", joinColumns = @JoinColumn(name = "user_name"))
 	private List<ProfessionalBackGround> professionalBackground;
 
-	@CreationTimestamp
-	private LocalDateTime createdDate;
-	
 	public User() { }
 
 	public User(String username, String name, String description, List<String> interests) {
