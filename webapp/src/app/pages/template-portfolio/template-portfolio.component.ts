@@ -24,10 +24,9 @@ export class TemplatePortfolioComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     let user: User | undefined;
     if (id) {
-      user = this.userService.getUser(id);
-      if (user) {
+      this.userService.getUserById(Number(id)).subscribe((user: User) => {
         this.user = user;
-      }
+      })
     }
   }
 

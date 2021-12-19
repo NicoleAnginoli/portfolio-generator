@@ -1,41 +1,42 @@
 import { Injectable } from '@angular/core';
-import { Person } from '../interfaces/Models';
+import { User } from '../interfaces/Models';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private storage: Storage;
+  url = 'http://localhost:8080/api/customer';
+  urlInserir = this.url + '/register';
+  urlUpdate = this.url + '/update';
 
-  constructor() {
-    this.storage = window.localStorage;
+  constructor(private httpClient: HttpClient) { }
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'GET',
+      'Access-Control-Allow-Origin': '*'
+    })
   }
 
-  addUser(p: Person) {
-    this.set(p.username, p);
+  getUsers(): Observable<User[]> {
+    return this.httpClient.get<User[]>(this.url);
   }
 
-  getUser(user: string) {
-    return this.get(user);
+  getUserById(id: number): Observable<User> {
+    return this.httpClient.get<User>(this.url + '/' + id);
   }
 
-  set(key: string, value: any): boolean {
-    if (this.storage) {
-      this.storage.setItem(key, JSON.stringify(value));
-      return true;
-    }
-    return false;
+  postUser(user: User): Observable<User> {
+    return this.httpClient.post<User>(this.urlInserir, JSON.stringify(user), this.httpOptions)
   }
 
-  get(key: string): any {
-    if (this.storage) {
-      let element = this.storage.getItem(key);
-      if (element)
-        return JSON.parse(element);
-      else
-        return null;
-    }
-    return null;
+  putUser(user: User): Observable<User> {
+    return this.httpClient.put<User>(this.urlUpdate + '/' + user.username, JSON.stringify(user), this.httpOptions)
   }
+
 }

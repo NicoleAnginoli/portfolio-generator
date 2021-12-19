@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { FillFormComponent } from './pages/fill-form/fill-form.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TemplatePortfolioComponent } from './pages/template-portfolio/template-portfolio.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { TemplatePortfolioComponent } from './pages/template-portfolio/template-
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
