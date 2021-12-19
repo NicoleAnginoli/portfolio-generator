@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/shared/interfaces/Models';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -9,12 +9,18 @@ import { UserService } from 'src/app/shared/services/user.service';
   templateUrl: './fill-form.component.html',
   styleUrls: ['./fill-form.component.scss']
 })
-export class FillFormComponent {
+export class FillFormComponent implements OnInit {
 
   form;
   user = {} as User;
+  userToUpdate = {} as User;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.form = this.formBuilder.group({
       username: [''],
       name: [''],
@@ -50,15 +56,6 @@ export class FillFormComponent {
     });
   }
 
-  onSubmit() {
-    this.user = this.form.value;
-    this.userService.addUser(this.user);
-    console.log(this.user);
-    console.log(this.user.professionalBackground[0].startDate)
-    console.log(typeof this.user.professionalBackground[0].startDate)
-    this.router.navigate(['/template', this.user.username]);
-  }
-
   get interests() {
     return this.form.get('interests') as FormArray;
   }
@@ -73,6 +70,33 @@ export class FillFormComponent {
 
   get academicInfo() {
     return this.form.get('academicInfo') as FormArray;
+  }
+
+  ngOnInit(): void {
+    const action = this.route.snapshot.paramMap.get('action');
+    if (action == 'edit')
+      this.createFormToEdit();
+  }
+
+  createFormToEdit() {
+    this.userService.getUsers().subscribe((resp) => {
+      console.log(resp)
+      this.userToUpdate = resp[2];
+      this.cleanInitialFormArray();
+      this.fillEditForm();
+      this.form.setValue(this.userToUpdate);
+    },
+      (error) => {
+        console.log("erro", error)
+      })
+  }
+
+  onSubmit() {
+    this.user = this.form.value;
+    console.log(this.user);
+    this.userService.postUser(this.user).subscribe(() => {
+      this.router.navigate(['/template', this.user.username]);
+    });
   }
 
   newAcademicInfo() {
@@ -91,16 +115,8 @@ export class FillFormComponent {
       startDate: [''],
       endDate: [''],
       roleDescription: [''],
-      isCurrentlyJob: [''],
+      // isCurrentlyJob: [''],
     })
-  }
-
-  addProfessionalBackground() {
-    this.professionalBackground.push(this.newProfessionalBackground());
-  }
-
-  addAcademicInfo() {
-    this.academicInfo.push(this.newAcademicInfo());
   }
 
   verifyLastInterest() {
@@ -122,16 +138,50 @@ export class FillFormComponent {
   }
 
   addRow(type: string) {
-    if (type == 'interests')
-      this.interests.push(this.formBuilder.control(''));
-    else if (type == 'skills')
-      this.skills.push(this.formBuilder.control(''));
+    switch (type) {
+      case 'interests':
+        this.interests.push(this.formBuilder.control(''));
+        break;
+      case 'skills':
+        this.skills.push(this.formBuilder.control(''));
+        break;
+      case 'academic':
+        this.academicInfo.push(this.newAcademicInfo());
+        break;
+      case 'professional':
+        this.professionalBackground.push(this.newProfessionalBackground());
+        break;
+    }
   }
 
   deleteRow(index: number, type: string) {
-    if (type == 'interests')
-      this.interests.removeAt(index);
-    else if (type == 'skills')
-      this.skills.removeAt(index);
+    switch (type) {
+      case 'interests':
+        this.interests.removeAt(index);
+        break;
+      case 'skills':
+        this.skills.removeAt(index);
+        break;
+      case 'academic':
+        this.academicInfo.removeAt(index);
+        break;
+      case 'professional':
+        this.professionalBackground.removeAt(index);
+        break;
+    }
+  }
+
+  cleanInitialFormArray() {
+    this.deleteRow(0, 'interests');
+    this.deleteRow(0, 'skills');
+    this.deleteRow(0, 'academic');
+    this.deleteRow(0, 'professional');
+  }
+
+  fillEditForm() {
+    this.userToUpdate.interests.forEach(() => this.addRow("interests"))
+    this.userToUpdate.skills.forEach(() => this.addRow("skills"))
+    this.userToUpdate.academicInfo.forEach(() => this.addRow("academic"))
+    this.userToUpdate.professionalBackground.forEach(() => this.addRow("professional"));
   }
 }

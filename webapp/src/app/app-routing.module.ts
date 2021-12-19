@@ -6,7 +6,8 @@ import { TemplatePortfolioComponent } from './pages/template-portfolio/template-
 
 const routes: Routes = [
   { path: 'template/:id', component: TemplatePortfolioComponent },
-  { path: 'fill-form', component: FillFormComponent }
+  { path: 'form/:action', component: FillFormComponent },
+  { path: 'form/:action', component: FillFormComponent }
 ];
 
 @NgModule({
