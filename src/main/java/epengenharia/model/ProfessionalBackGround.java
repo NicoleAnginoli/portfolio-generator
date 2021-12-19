@@ -14,5 +14,5 @@ public class ProfessionalBackGround {
     String endDate;
     @Column(length = 65535)
     String roleDescription;
-    Boolean isCurrentlyJob;
+//    Boolean isCurrentlyJob;
 }

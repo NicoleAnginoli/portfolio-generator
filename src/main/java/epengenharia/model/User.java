@@ -17,7 +17,7 @@ public class User {
 
 	@Id
 	@NotNull
-	String userName;
+	String username;
 
 	@NotNull
 	private String name;
@@ -27,6 +27,10 @@ public class User {
 	@ElementCollection
 	@CollectionTable(name = "user_interests", joinColumns = @JoinColumn(name = "user_name"))
 	private List<String> interests;
+	
+	@ElementCollection
+	@CollectionTable(name = "user_skills", joinColumns = @JoinColumn(name = "user_name"))
+	private List<String> skills;
 
 	@Embedded
 	private Contact contacts;
@@ -46,8 +50,8 @@ public class User {
 	
 	public User() { }
 
-	public User(String userName, String name, String description, List<String> interests) {
-		this.userName = userName;
+	public User(String username, String name, String description, List<String> interests) {
+		this.username = username;
 		this.name = name;
 		this.description = description;
 		this.interests = interests;
