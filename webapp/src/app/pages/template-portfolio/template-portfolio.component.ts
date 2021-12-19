@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Person } from 'src/app/shared/interfaces/Models';
+import { User } from 'src/app/shared/interfaces/Models';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -18,15 +18,15 @@ export class TemplatePortfolioComponent implements OnInit {
   showAcademicInfo: boolean = false;
   showProfessionalInfo: boolean = false;
   showskills: boolean = false;
-  person = {} as Person;
+  user = {} as User;
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    let user: Person | undefined;
+    let user: User | undefined;
     if (id) {
       user = this.userService.getUser(id);
       if (user) {
-        this.person = user;
+        this.user = user;
       }
     }
   }

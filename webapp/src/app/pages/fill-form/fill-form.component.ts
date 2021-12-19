@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Person } from 'src/app/shared/interfaces/Models';
+import { User } from 'src/app/shared/interfaces/Models';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 export class FillFormComponent {
 
   form;
-  person = {} as Person;
+  user = {} as User;
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
     this.form = this.formBuilder.group({
@@ -51,12 +51,12 @@ export class FillFormComponent {
   }
 
   onSubmit() {
-    this.person = this.form.value;
-    this.userService.addUser(this.person);
-    console.log(this.person);
-    console.log(this.person.professionalBackground[0].startDate)
-    console.log(typeof this.person.professionalBackground[0].startDate)
-    this.router.navigate(['/template', this.person.username]);
+    this.user = this.form.value;
+    this.userService.addUser(this.user);
+    console.log(this.user);
+    console.log(this.user.professionalBackground[0].startDate)
+    console.log(typeof this.user.professionalBackground[0].startDate)
+    this.router.navigate(['/template', this.user.username]);
   }
 
   get interests() {

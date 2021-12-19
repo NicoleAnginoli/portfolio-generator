@@ -41,36 +41,36 @@
     </nav>
     <div class="content">
         <div>
-            <h1 class="name">{{person.name}}</h1>
-            <p class="description">{{person.description}}</p>
+            <h1 class="name">{{user.name}}</h1>
+            <p class="description">{{user.description}}</p>
         </div>
         <div *ngIf="showContacts">
             <div class="card">
                 <img class="img" src="assets/email.png">   
-                <span class="card__text">{{person.contacts.email}}</span>
+                <span class="card__text">{{user.contacts.email}}</span>
             </div>
             <div class="card">
                 <img class="img" src="assets/linkedin.png">  
-                <span class="card__text">{{person.contacts.linkedin}}</span>
+                <span class="card__text">{{user.contacts.linkedin}}</span>
             </div>
             <div class="card">
                 <img class="img" src="assets/phone.png">  
-                <span class="card__text">{{person.contacts.phone}}</span>
+                <span class="card__text">{{user.contacts.phone}}</span>
             </div>
         </div>
         <div *ngIf="showInterests">
-            <div class="card" *ngFor="let i of person.interests">
+            <div class="card" *ngFor="let i of user.interests">
                 <span class="card__text">{{i}}</span>
             </div>
         </div>
         <div *ngIf="showAcademicInfo">
-            <div class="card" *ngFor="let i of person.academicInfo">
+            <div class="card" *ngFor="let i of user.academicInfo">
                 <p class="card__text">{{i.course}} - {{i.institution}}</p>
                 <p class="card__text">{{i.startDate | date: 'dd/MM/yyyy'}} - {{i.endDate | date: 'dd/MM/yyyy'}}</p>
             </div>
         </div>
         <div *ngIf="showProfessionalInfo">
-            <div class="card" *ngFor="let i of person.professionalBackground">
+            <div class="card" *ngFor="let i of user.professionalBackground">
                 <p class="card__text">{{i.startDate | date: 'dd/MM/yyyy'}} - 
                     <span *ngIf="!i.isCurrentlyJob">{{i.endDate | date: 'dd/MM/yyyy'}}</span>
                     <span *ngIf="i.isCurrentlyJob">atualmente</span>
@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class="know" *ngIf="showskills">
-            <div class="card-small" *ngFor="let i of person.skills">
+            <div class="card-small" *ngFor="let i of user.skills">
                 <span class="card__text">{{i}}</span>
             </div>
         </div>
