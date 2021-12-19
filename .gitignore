@@ -1,11 +1,5 @@
-HELP.md
+# java
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**
-!**/src/test/**
-
-### STS ###
-.apt_generated
 .classpath
 .factorypath
 .project
@@ -13,20 +7,24 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
+# angular 
+/webapp/dist
+/webapp/node_modules
+
+
+# IDEs and editors
+/.idea
+.c9/
+*.launch
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+/.apt_generated_tests/
 .idea
 *.iws
 *.iml
 *.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-
-### VS Code ###
-.vscode/
-/.apt_generated_tests/
