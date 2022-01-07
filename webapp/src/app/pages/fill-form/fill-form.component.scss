@@ -9,7 +9,7 @@
 
     &__element {
         margin-right: 10px;
-        background-color: rgba(0,0,0,.2);
+        background-color: rgba(0, 0, 0, 0.2);
         padding: 5px 10px;
         border-radius: 4px;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI";
@@ -22,3 +22,30 @@
     margin-top: 30px;
     padding-top: 20px;
 }
+
+.check {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+
+    &__input {
+        min-width: 18px;
+        min-height: 18px;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+    &__label {
+        margin: 0px;
+    }
+}
+
+.send-btn {
+    padding: 10px;
+}
+
+.username__error {
+    color: red;
+    border-color: red;
+}
+

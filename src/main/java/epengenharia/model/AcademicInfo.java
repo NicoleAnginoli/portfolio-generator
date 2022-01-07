@@ -11,4 +11,5 @@ public class AcademicInfo {
     String startDate;
     String endDate;
     String course;
+    Boolean isCurrentCourse;
 }

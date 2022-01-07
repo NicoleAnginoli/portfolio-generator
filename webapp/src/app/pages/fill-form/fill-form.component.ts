@@ -1,8 +1,11 @@
+import { ThisReceiver, ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray } from '@angular/forms';
+import { FormBuilder, FormArray, Validators, ValidationErrors, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { atLeastOneField } from 'src/app/shared/directives/require-end-date.directive';
 import { User } from 'src/app/shared/interfaces/Models';
 import { UserService } from 'src/app/shared/services/user.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-fill-form',
@@ -14,6 +17,8 @@ export class FillFormComponent implements OnInit {
   form;
   user = {} as User;
   userToUpdate = {} as User;
+  editForm: boolean = false;
+  userAlreadyExists: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,36 +27,38 @@ export class FillFormComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.form = this.formBuilder.group({
-      username: [''],
-      name: [''],
-      description: [''],
+      username: ['', Validators.required],
+      name: ['', Validators.required],
+      description: ['', Validators.required],
       contacts: this.formBuilder.group({
-        email: [''],
-        linkedin: [''],
-        phone: [''],
+        email: ['', Validators.required],
+        linkedin: ['', Validators.required],
+        phone: ['', Validators.required],
       }),
       interests: this.formBuilder.array([
-        this.formBuilder.control('')
+        this.formBuilder.control('', Validators.required)
       ]),
       skills: this.formBuilder.array([
-        this.formBuilder.control('')
+        this.formBuilder.control('', Validators.required)
       ]),
       professionalBackground: this.formBuilder.array([
         this.formBuilder.group({
-          company: [''],
-          role: [''],
-          startDate: [''],
+          company: ['', Validators.required],
+          role: ['', Validators.required],
+          startDate: ['', Validators.required],
           endDate: [''],
-          roleDescription: [''],
-        })
+          roleDescription: ['', Validators.required],
+          isCurrentJob: ['', Validators.required],
+        }, { validator: atLeastOneField('isCurrentJob', 'endDate') })
       ]),
       academicInfo: this.formBuilder.array([
         this.formBuilder.group({
-          institution: [''],
-          course: [''],
-          startDate: [''],
+          institution: ['', Validators.required],
+          course: ['', Validators.required],
+          startDate: ['', Validators.required],
+          isCurrentCourse: [''],
           endDate: [''],
-        })
+        }, { validator: atLeastOneField('isCurrentCourse', 'endDate') })
       ]),
     });
   }
@@ -74,49 +81,92 @@ export class FillFormComponent implements OnInit {
 
   ngOnInit(): void {
     const action = this.route.snapshot.paramMap.get('action');
-    if (action == 'edit')
+    if (action == 'edit') {
+      this.editForm = true;
       this.createFormToEdit();
+    }
   }
 
   createFormToEdit() {
-    this.userService.getUsers().subscribe((resp) => {
-      console.log(resp)
-      this.userToUpdate = resp[2];
-      this.cleanInitialFormArray();
-      this.fillEditForm();
-      this.form.setValue(this.userToUpdate);
-    },
-      (error) => {
-        console.log("erro", error)
-      })
+    console.log(this.route.snapshot.paramMap)
+    const id = this.route.snapshot.paramMap.get('id');
+    let user: User | undefined;
+    if (id) {
+      this.userService.getUserById(id).subscribe((resp) => {
+        if (resp) {
+          this.userToUpdate = resp;
+          this.cleanInitialFormArray();
+          this.fillEditForm();
+          this.form.setValue(this.userToUpdate);
+        }
+      },
+        (error) => {
+          // TO DO - tela sistema indisponível
+          console.log("err", error)
+        })
+    }
+  }
+
+  validateUsername() {
+    const username = this.form.get('username')?.value;
+    if(username == ''){
+      this.userAlreadyExists = false
+    }
+    else {
+       this.userService.getUserById(username)
+      .subscribe(
+        (res) => {
+          console.log(res)
+          if (res) {
+            this.userAlreadyExists = true;
+          } else {
+            this.userAlreadyExists = false
+          }
+        }
+      )
+    }   
   }
 
   onSubmit() {
     this.user = this.form.value;
     console.log(this.user);
+    if (this.editForm)
+      this.editUser(this.user);
+    else
+      this.addUser(this.user);
+  }
+
+  addUser(user: User) {
     this.userService.postUser(this.user).subscribe(() => {
+      this.router.navigate(['/template', this.user.username]);
+    });
+  }
+
+  editUser(user: User) {
+    this.userService.putUser(this.user).subscribe(() => {
       this.router.navigate(['/template', this.user.username]);
     });
   }
 
   newAcademicInfo() {
     return this.formBuilder.group({
-      institution: [''],
-      course: [''],
-      startDate: [''],
+      institution: ['', Validators.required],
+      course: ['', Validators.required],
+      startDate: ['', Validators.required],
+      isCurrentCourse: ['', Validators.required],
       endDate: [''],
-    })
+    }, { validator: atLeastOneField('isCurrentCourse', 'endDate') })
   }
 
   newProfessionalBackground() {
     return this.formBuilder.group({
-      company: [''],
-      role: [''],
-      startDate: [''],
+      company: ['', Validators.required],
+      role: ['', Validators.required],
+      startDate: ['', Validators.required],
       endDate: [''],
-      roleDescription: [''],
-      // isCurrentlyJob: [''],
-    })
+      roleDescription: ['', Validators.required],
+      isCurrentJob: ['', Validators.required],
+    }, { validator: atLeastOneField('isCurrentJob', 'endDate') })
   }
 
   verifyLastInterest() {
@@ -140,10 +190,10 @@ export class FillFormComponent implements OnInit {
   addRow(type: string) {
     switch (type) {
       case 'interests':
-        this.interests.push(this.formBuilder.control(''));
+        this.interests.push(this.formBuilder.control('', Validators.required));
         break;
       case 'skills':
-        this.skills.push(this.formBuilder.control(''));
+        this.skills.push(this.formBuilder.control('', Validators.required));
         break;
       case 'academic':
         this.academicInfo.push(this.newAcademicInfo());
@@ -181,7 +231,30 @@ export class FillFormComponent implements OnInit {
   fillEditForm() {
     this.userToUpdate.interests.forEach(() => this.addRow("interests"))
     this.userToUpdate.skills.forEach(() => this.addRow("skills"))
-    this.userToUpdate.academicInfo.forEach(() => this.addRow("academic"))
-    this.userToUpdate.professionalBackground.forEach(() => this.addRow("professional"));
+    this.userToUpdate.academicInfo.forEach((user, i) => {
+      this.addRow("academic");
+      if(user.isCurrentCourse)
+        this.academicInfo.at(i).get('endDate')?.disable();
+    })
+    this.userToUpdate.professionalBackground.forEach((user, i) => {
+      this.addRow("professional");
+      if(user.isCurrentJob)
+        this.professionalBackground.at(i).get('endDate')?.disable()
+    });
   }
+
+  onAcademicCheckboxChange(i: number) {
+    if (this.academicInfo.at(i).get('isCurrentCourse')?.value)
+      this.academicInfo.at(i).get('endDate')?.disable()
+    else
+      this.academicInfo.at(i).get('endDate')?.enable()
+  }
+
+  onProfessionalCheckboxChange(i: number) {
+    if (this.professionalBackground.at(i).get('isCurrentJob')?.value)
+      this.professionalBackground.at(i).get('endDate')?.disable()
+    else
+      this.professionalBackground.at(i).get('endDate')?.enable()
+  }
+
 }

@@ -20,6 +20,7 @@ export interface AcademicInfo {
     startDate: Date;
     endDate: Date;
     course: string;
+    isCurrentCourse: boolean | false;
 }
 
 export interface ProfessionalBackGround {
@@ -28,5 +29,5 @@ export interface ProfessionalBackGround {
     startDate: Date;
     endDate?: Date;
     roleDescription: string;
-    isCurrentlyJob: boolean | false;
+    isCurrentJob: boolean | false;
 }

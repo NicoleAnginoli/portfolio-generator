@@ -7,12 +7,14 @@ import { FillFormComponent } from './pages/fill-form/fill-form.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TemplatePortfolioComponent } from './pages/template-portfolio/template-portfolio.component';
 import { HttpClientModule } from '@angular/common/http';
+import { InitPortifolioGeneratorComponent } from './pages/init-portifolio-generator/init-portifolio-generator.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FillFormComponent,
-    TemplatePortfolioComponent
+    TemplatePortfolioComponent,
+    InitPortifolioGeneratorComponent,
   ],
   imports: [
     BrowserModule,
