@@ -66,14 +66,17 @@
         <div *ngIf="showAcademicInfo">
             <div class="card" *ngFor="let i of user.academicInfo">
                 <p class="card__text">{{i.course}} - {{i.institution}}</p>
-                <p class="card__text">{{i.startDate | date: 'dd/MM/yyyy'}} - {{i.endDate | date: 'dd/MM/yyyy'}}</p>
+                <p class="card__text">{{i.startDate | date: 'dd/MM/yyyy'}} - 
+                    <span *ngIf="!i.isCurrentCourse">{{i.endDate | date: 'dd/MM/yyyy'}}</span>
+                    <span *ngIf="i.isCurrentCourse">atualmente</span>
+                </p>
             </div>
         </div>
         <div *ngIf="showProfessionalInfo">
             <div class="card" *ngFor="let i of user.professionalBackground">
                 <p class="card__text">{{i.startDate | date: 'dd/MM/yyyy'}} - 
-                    <span *ngIf="!i.isCurrentlyJob">{{i.endDate | date: 'dd/MM/yyyy'}}</span>
-                    <span *ngIf="i.isCurrentlyJob">atualmente</span>
+                    <span *ngIf="!i.isCurrentJob">{{i.endDate | date: 'dd/MM/yyyy'}}</span>
+                    <span *ngIf="i.isCurrentJob">atualmente</span>
                 </p>
                 <p class="card__text">{{i.role}}</p>
                 <p class="card__text">{{i.company}}</p>
