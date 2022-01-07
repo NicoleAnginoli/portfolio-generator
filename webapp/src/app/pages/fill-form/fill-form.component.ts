@@ -88,7 +88,6 @@ export class FillFormComponent implements OnInit {
   }
 
   createFormToEdit() {
-    console.log(this.route.snapshot.paramMap)
     const id = this.route.snapshot.paramMap.get('id');
     let user: User | undefined;
     if (id) {
@@ -116,7 +115,6 @@ export class FillFormComponent implements OnInit {
        this.userService.getUserById(username)
       .subscribe(
         (res) => {
-          console.log(res)
           if (res) {
             this.userAlreadyExists = true;
           } else {
@@ -129,7 +127,6 @@ export class FillFormComponent implements OnInit {
 
   onSubmit() {
     this.user = this.form.value;
-    console.log(this.user);
     if (this.editForm)
       this.editUser(this.user);
     else
