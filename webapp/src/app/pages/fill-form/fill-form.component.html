@@ -172,7 +172,7 @@
                         outro curso</button>
                 </div>
                 <div class="send-btn">
-                    <button class="btn btn-success btn-lg btn-block" type="submit" [disabled]="form.invalid && userAlreadyExists">Enviar</button>
+                    <button class="btn btn-success btn-lg btn-block" type="submit" [disabled]="form.invalid || userAlreadyExists">Enviar</button>
                 </div>
             </section>
         </form>
