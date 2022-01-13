@@ -1,0 +1,19 @@
+<div class="back">
+    <h1 class="title">Portfolio Generator</h1>
+    <div class="info">
+        <div>
+            <button class="button" (click)="goFillForm()">Crie seu portfólio</button>
+        </div>
+        <p class="text">Já possui um usuário?</p>
+        <form [formGroup]="form">
+            <input [ngClass]="{input__error : messageNotFound}" type="text" (keyup)="disableButton()" placeholder="insira seu username" id="username" name="username"
+                formControlName="username">
+            <p class="text__error" *ngIf="messageNotFound">Usuário não encontrado</p>
+            <div class="button__section">
+                <button [disabled]="disabledButton" (click)="goUserAction('edit')" class="button">Editar informações</button>
+                <button [disabled]="disabledButton" (click)="goUserAction('template')" class="button">Ir para seu template</button>
+            </div>
+        </form>
+    </div>
+    <img src="../../../assets/developer_icon.png">
+</div>

@@ -1,0 +1,92 @@
+<div class="container">
+    <nav class="side-bar">
+        <ol class="list">
+            <li>
+                <button class="item" (click)="showSection('contacts')">
+                    <p class="item__text">
+                        Contatos
+                    </p>
+                </button>
+
+            </li>
+            <li>
+                <button class="item" (click)="showSection('interests')">
+                    <p class="item__text">
+                        Interesses
+                    </p>
+                </button>
+            </li>
+            <li>
+                <button class="item" (click)="showSection('academic')">
+                    <p class="item__text">
+                        Formação Acadêmica
+                    </p>
+                </button>
+            </li>
+            <li>
+                <button class="item" (click)="showSection('professional')">
+                    <p class="item__text">
+                        Experiência Profissional
+                    </p>
+                </button>
+            </li>
+            <li>
+                <button class="item" (click)="showSection('skills')">
+                    <p class="item__text">
+                        Conhecimentos
+                    </p>
+                </button>
+            </li>
+        </ol>
+    </nav>
+    <div class="content">
+        <div>
+            <h1 class="name">{{user.name}}</h1>
+            <p class="description">{{user.description}}</p>
+        </div>
+        <div *ngIf="showContacts">
+            <div class="card">
+                <img class="img" src="assets/email.png">   
+                <span class="card__text">{{user.contacts.email}}</span>
+            </div>
+            <div class="card">
+                <img class="img" src="assets/linkedin.png">  
+                <span class="card__text">{{user.contacts.linkedin}}</span>
+            </div>
+            <div class="card">
+                <img class="img" src="assets/phone.png">  
+                <span class="card__text">{{user.contacts.phone}}</span>
+            </div>
+        </div>
+        <div *ngIf="showInterests">
+            <div class="card" *ngFor="let i of user.interests">
+                <span class="card__text">{{i}}</span>
+            </div>
+        </div>
+        <div *ngIf="showAcademicInfo">
+            <div class="card" *ngFor="let i of user.academicInfo">
+                <p class="card__text">{{i.course}} - {{i.institution}}</p>
+                <p class="card__text">{{i.startDate | date: 'dd/MM/yyyy'}} - 
+                    <span *ngIf="!i.isCurrentCourse">{{i.endDate | date: 'dd/MM/yyyy'}}</span>
+                    <span *ngIf="i.isCurrentCourse">atualmente</span>
+                </p>
+            </div>
+        </div>
+        <div *ngIf="showProfessionalInfo">
+            <div class="card" *ngFor="let i of user.professionalBackground">
+                <p class="card__text">{{i.startDate | date: 'dd/MM/yyyy'}} - 
+                    <span *ngIf="!i.isCurrentJob">{{i.endDate | date: 'dd/MM/yyyy'}}</span>
+                    <span *ngIf="i.isCurrentJob">atualmente</span>
+                </p>
+                <p class="card__text">{{i.role}}</p>
+                <p class="card__text">{{i.company}}</p>
+                <p class="card__text">{{i.roleDescription}}</p>
+            </div>
+        </div>
+        <div class="know" *ngIf="showskills">
+            <div class="card-small" *ngFor="let i of user.skills">
+                <span class="card__text">{{i}}</span>
+            </div>
+        </div>
+    </div>
+</div>
